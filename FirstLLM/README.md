@@ -41,8 +41,3 @@ python minillm.py
 * **Temperature (0.7):** Provides a balance between factual consistency and natural, varied language.
 * **Max Tokens (200):** Limits the response length to keep the conversation concise and save on API usage.
 
-
-
----
-
-Would you like me to show you how to move that **API Token** into a hidden `.env` file so it's safer for your GitHub upload?
