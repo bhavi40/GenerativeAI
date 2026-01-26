@@ -11,3 +11,6 @@ A production-ready Retrieval-Augmented Generation (RAG) system that transforms u
 *  🚀 Production-Ready: Containerized, scalable, and enterprise-grade reliability
 *  🔒 Reduced Hallucinations: Context-grounded responses backed by source documents
 *  📊 RESTful API: Clean, documented endpoints with automatic validation
+
+## Architecture Flow
+![Architecture Flow](https://github.com/bhavi40/GenerativeAI/blob/main/Enterprise%20Knowledge%20Assistant/Project%20Flow.png)
