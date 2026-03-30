@@ -1,159 +1,64 @@
-import json
-import re
 import time
-from google import genai
-from google.genai import errors
-from config import GEMINI_API_KEY, GEMINI_MODEL
+from gmail_client import get_unread_emails
+from agent import analyze_email
+from db import create_tables, is_email_processed, save_processed_email, save_job_application
 
-client = genai.Client(api_key=GEMINI_API_KEY)
+def run():
+    print("Starting Job Tracker Agent...")
+    print("=" * 60)
 
-NOT_JOB_SUBJECTS = [
-    "sale", "off", "discount", "deal", "offer", "save",
-    "shop", "order", "shipped", "delivery", "tracking",
-    "receipt", "payment", "bill", "statement",
-    "newsletter", "unsubscribe", "subscription",
-    "points", "reward", "cashback", "coupon",
-    "job alert", "job digest", "jobs for you",
-    "top jobs", "recommended jobs", "job matches",
-    "new jobs", "hiring near", "jobs in",
-    "linkedin news", "linkedin digest",
-    "glassdoor", "indeed digest", "ziprecruiter",
-    "welcome to", "verify your", "confirm your email",
-    "password", "security alert", "sign in",
-    "follow request", "liked your", "commented on",
-    "get 5x", "earn points", "free shipping",
-    "more jobs", "more job", "and more",
-    "jobs in", "hiring for", "is hiring",
-    "stand out", "automated systems",
-    "volunteer", "forecast", "rain gear",
-    "kohl", "mango", "shein", "clinique",
-    "hdfc", "irctc", "axis bank", "tax",
-    "costco", "krispy", "pink", "ulta",
-]
+    create_tables()
 
-JOB_SUBJECTS = [
-    "application", "applied", "applicant",
-    "interview", "interviewing", "schedule",
-    "offer letter", "position", "role",
-    "recruiting", "recruiter", "opportunity",
-    "thank you for applying", "we received your",
-    "next steps", "moving forward", "not moving forward",
-    "unfortunately", "regret", "decision",
-    "hiring", "candidate", "assessment",
-    "your resume", "your profile",
-    "background check", "onboarding",
-    "your application to",
-    "your application at",
-]
+    print("Fetching emails from Gmail...")
+    emails = get_unread_emails()
+    print(f"Found {len(emails)} emails since 2026/03/16\n")
 
-def is_job_related_subject(subject):
-    subject_lower = subject.lower()
+    total = 0
+    skipped = 0
+    job_found = 0
+    not_job = 0
+    failed = 0
 
-    for keyword in NOT_JOB_SUBJECTS:
-        if keyword in subject_lower:
-            return False
+    for i, email in enumerate(emails):
+        print(f"Processing {i+1}/{len(emails)}: {email['subject'][:50]}")
 
-    for keyword in JOB_SUBJECTS:
-        if keyword in subject_lower:
-            return True
+        if is_email_processed(email["id"]):
+            skipped += 1
+            print(f"  Already processed — skipping")
+            continue
 
-    return None
+        result = analyze_email(email)
 
-def analyze_email(email):
-    subject = email.get("subject", "")
-    body = email.get("body", "")
+        # If rate limit failed all retries — don't save, retry next run
+        if result.get("rate_limit_failed", False):
+            failed += 1
+            print(f"  Gemini failed — will retry next run")
+            continue
 
-    subject_check = is_job_related_subject(subject)
+        is_job = result.get("is_job_related", False)
 
-    if subject_check is False:
-        print(f"  Filtered by subject — not job related")
-        return {"is_job_related": False, "gemini_called": False}
+        save_processed_email(email, is_job)
 
-    truncated_body = body[:3000]
+        if is_job:
+            save_job_application(email["id"], result)
+            job_found += 1
+            print(f"  JOB FOUND — {result.get('company')} | {result.get('role')} | {result.get('status')}")
+        else:
+            not_job += 1
+            print(f"  Not job related — skipped")
 
-    prompt = f"""
-You are a job application tracker assistant. Analyze this email carefully.
+        total += 1
 
-SUBJECT: {subject}
-BODY:
-{truncated_body}
+        if result.get("llm_called", False):
+            time.sleep(15)
 
-ONLY mark as job-related if the email is a DIRECT interaction between you and a specific company:
-- Application confirmation from a specific company
-- Recruiter reaching out directly about a specific role
-- Interview invitation from a specific company
-- Rejection email from a specific company
-- Job offer from a specific company
-- Company showed interest but put you on hold or waitlist
+    print("\n" + "=" * 60)
+    print(f"Run complete!")
+    print(f"  Processed  : {total}")
+    print(f"  Skipped    : {skipped} (already in DB)")
+    print(f"  Jobs found : {job_found}")
+    print(f"  Not job    : {not_job}")
+    print(f"  Failed     : {failed} (will retry next run)")
 
-NOT job-related:
-- LinkedIn/Glassdoor/Indeed job digest or alert emails
-- Any email listing multiple jobs
-- Shopping, promotions, bills, newsletters
-
-REJECTION EMAIL DETECTION — mark as rejected if email contains:
-- "we are not moving forward"
-- "we have decided to move forward with other candidates"
-- "after careful consideration"
-- "we have decided not to proceed"
-- "your application was not selected"
-- "unfortunately we are unable to offer you"
-- "we regret to inform you"
-- "we will keep your resume on file"
-- "thank you for your interest but"
-- Any polite language meaning NO or not selected
-
-Respond ONLY with a JSON object, no explanation, no markdown, no backticks.
-
-If NOT job related:
-{{"is_job_related": false}}
-
-If IS job related:
-{{
-    "is_job_related": true,
-    "company": "Exact company name",
-    "role": "Exact job title",
-    "status": "one of: applied / interviewing / rejected / offer / recruiter_outreach / interested / ghosted",
-    "location": "City State or Remote or null",
-    "applied_date": "date from email or null",
-    "notes": "one sentence summary",
-    "confidence": 0.95
-}}
-
-Status guide:
-- applied = company confirmed they received your application
-- interviewing = interview invite or scheduling email
-- rejected = company said no in any way direct or polite
-- offer = company made you an offer
-- recruiter_outreach = recruiter contacted you about a specific role
-- interested = company showed interest but put you on hold or waitlist
-- ghosted = you followed up but got no response
-"""
-
-    max_retries = 3
-    for attempt in range(max_retries):
-        try:
-            response = client.models.generate_content(
-                model=GEMINI_MODEL,
-                contents=prompt
-            )
-            raw = response.text.strip()
-            raw = re.sub(r"```json|```", "", raw).strip()
-            result = json.loads(raw)
-            result["gemini_called"] = True
-            return result
-
-        except errors.ClientError as e:
-            if "429" in str(e):
-                wait = 30 * (attempt + 1)
-                print(f"  Rate limit hit — waiting {wait} seconds...")
-                time.sleep(wait)
-            else:
-                print(f"  Gemini error: {e}")
-                return {"is_job_related": False, "gemini_called": True}
-
-        except json.JSONDecodeError:
-            print(f"  Could not parse response — skipping")
-            return {"is_job_related": False, "gemini_called": True}
-
-    return {"is_job_related": False, "gemini_called": True}
+if __name__ == "__main__":
+    run()
