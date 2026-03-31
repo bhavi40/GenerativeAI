@@ -5,6 +5,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from config import SCOPES, CREDENTIALS_FILE, START_DATE, TOKEN_FILE, MAX_EMAILS_PER_RUN
+from db import get_last_processed_timestamp
 
 
 def get_gmail_service():
@@ -21,29 +22,53 @@ def get_gmail_service():
             token.write(creds.to_json())
     return build("gmail", "v1", credentials=creds)
 
+
 def get_unread_emails():
     service = get_gmail_service()
-    results = service.users().messages().list(
+    
+    # Dynamic timestamp — only fetch emails since last run
+    query = get_last_processed_timestamp()
+    print(f"Fetching emails with query: {query}")
+    
+    results = service.users().threads().list(
         userId="me",
-        labelIds=["INBOX"],
-        q=f"after:{START_DATE}",
+        q=query,
         maxResults=MAX_EMAILS_PER_RUN
     ).execute()
 
-    messages = results.get("messages", [])
+    threads = results.get("threads", [])
     emails = []
 
-    for msg in messages:
-        msg_data = service.users().messages().get(
+    for thread in threads:
+        thread_data = service.users().threads().get(
             userId="me",
-            id=msg["id"],
+            id=thread["id"],
             format="full"
         ).execute()
 
-        email = parse_email(msg_data)
+        messages = thread_data.get("messages", [])
+        
+        if not messages:
+            continue
+
+        latest_message = messages[-1]
+        email = parse_email(latest_message)
+        
+        first_message = messages[0]
+        first_headers = first_message["payload"]["headers"]
+        first_subject = next(
+            (h["value"] for h in first_headers if h["name"] == "Subject"),
+            ""
+        )
+        
+        email["thread_id"] = thread["id"]
+        email["thread_length"] = len(messages)
+        email["first_subject"] = first_subject
+        
         emails.append(email)
 
     return emails
+
 
 def parse_email(msg_data):
     headers = msg_data["payload"]["headers"]
