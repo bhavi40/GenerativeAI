@@ -50,10 +50,8 @@ email-agent/
 ├── extractor.py        # Recursive HTML/MIME parsing, body text extraction
 ├── db.py               # PostgreSQL operations, deduplication, status priority
 ├── main.py             # Full pipeline orchestration with structured logging
-├── scheduler.py        # APScheduler — runs agent every 2 hours automatically
 ├── chat.py             # Text-to-SQL chatbot powered by Claude LLM
 ├── api.py              # FastAPI REST API microservice
-├── migrate.py          # Local PostgreSQL to cloud DB migration script
 ├── config.py           # Configuration and environment variables
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Environment variable template
