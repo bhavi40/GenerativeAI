@@ -1,39 +1,43 @@
+# AI-Powered Job Application Tracker Agent
 
-# Job Application Tracker Agent
-
-An AI-powered email agent that automatically reads your Gmail inbox, classifies job-related emails using Google Gemini LLM, extracts structured data, and stores everything in PostgreSQL — so you always know where you stand in your job search.
-
----
-
-## What it does
-
-- Connects to Gmail via OAuth 2.0 and fetches emails from a configured start date
-- Applies a two-stage filter — rule-based subject filtering first, then Gemini LLM for uncertain emails — reducing API calls by ~80%
-- Classifies emails into 7 statuses: `applied`, `interviewing`, `rejected`, `offer`, `recruiter_outreach`, `interested`, `ghosted`
-- Detects rejection emails using semantic pattern matching (e.g. "we are not moving forward", "after careful consideration")
-- Extracts company name, role, location, applied date, and a one-sentence summary
-- Saves everything to PostgreSQL with deduplication — never processes the same email twice
-- Runs automatically every 2 hours via APScheduler
-- Includes a Streamlit dashboard with stats, application table, bar charts, and an AI chat interface
-- Deployed on AWS (Lambda + RDS + S3 + EventBridge + CloudWatch)
+An intelligent email agent that automatically reads your Gmail inbox, classifies job-related emails using Claude LLM, extracts structured data, and stores everything in PostgreSQL. Ask questions about your applications in plain English using a Text-to-SQL conversational interface exposed as a REST API.
 
 ---
 
-## Tech Stack
+## Demo
 
-| Layer | Technology |
-|---|---|
-| Language | Python 3.11 |
-| AI / LLM | Google Gemini 2.5 Flash Lite |
-| Email | Gmail API (OAuth 2.0) |
-| Database (local) | PostgreSQL (Docker) |
-| Database (cloud) | AWS RDS PostgreSQL |
-| Storage | AWS S3 |
-| Compute | AWS Lambda |
-| Scheduling | AWS EventBridge / APScheduler |
-| Monitoring | AWS CloudWatch |
-| Dashboard | Streamlit |
-| Containerization | Docker, Docker Compose |
+```
+You: which companies rejected me?
+Agent: You have 3 rejections:
+       • Caterpillar Inc — Software Engineer 1
+       • Google — Data Engineer
+       • Amazon — Backend Engineer
+
+You: any interviews scheduled?
+Agent: Yes! You have one active interview:
+       • IHS Consultants — Fullstack Developer (screening via Teams)
+```
+
+---
+
+## Architecture
+
+```
+Gmail Inbox (OAuth 2.0)
+        ↓
+gmail_client.py — thread-based email fetching
+        ↓
+extractor.py — recursive HTML/MIME parsing
+        ↓
+agent.py — Claude LLM classification + extraction
+        ↓
+db.py — PostgreSQL with deduplication
+        ↓
+chat.py — Text-to-SQL natural language interface
+        ↓
+api.py — FastAPI REST API microservice
+```
+
 
 ---
 
@@ -41,17 +45,16 @@ An AI-powered email agent that automatically reads your Gmail inbox, classifies 
 
 ```
 email-agent/
-├── agent.py            # Two-stage email classification using Gemini LLM
-├── gmail_client.py     # Gmail API connection and email fetching
-├── extractor.py        # Email body HTML cleaning and text extraction
-├── db.py               # PostgreSQL connection, table creation, queries
-├── main.py             # Main pipeline — fetch, classify, store
-├── scheduler.py        # APScheduler — runs every 2 hours automatically
-├── dashboard.py        # Streamlit dashboard with AI chat interface
-├── chat.py             # Natural language query interface using Gemini
+├── agent.py            # Claude LLM email classification and data extraction
+├── gmail_client.py     # Gmail API connection, thread-based email fetching
+├── extractor.py        # Recursive HTML/MIME parsing, body text extraction
+├── db.py               # PostgreSQL operations, deduplication, status priority
+├── main.py             # Full pipeline orchestration with structured logging
+├── scheduler.py        # APScheduler — runs agent every 2 hours automatically
+├── chat.py             # Text-to-SQL chatbot powered by Claude LLM
+├── api.py              # FastAPI REST API microservice
+├── migrate.py          # Local PostgreSQL to cloud DB migration script
 ├── config.py           # Configuration and environment variables
-├── Dockerfile          # Container definition
-├── docker-compose.yml  # Multi-container setup (agent + db + dashboard)
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Environment variable template
 └── README.md
@@ -59,55 +62,44 @@ email-agent/
 
 ---
 
-## How It Works
+## Key Engineering Decisions
 
+### 1. Thread-based deduplication
+Instead of processing individual emails, emails are grouped by Gmail thread ID. Each conversation thread = one record. Prevents duplicate entries from email reply chains.
+
+### 2. Dynamic start date
+Instead of a hardcoded date, the agent uses MAX(processed_at) from PostgreSQL as the query start time. Each run fetches only emails since the last run — efficient and cost effective.
+
+### 3. Status priority system
+Once a higher-priority status is recorded it cannot be overwritten by a lower one. Rejection has the highest priority and can never be downgraded.
+
+```python
+STATUS_PRIORITY = {
+    "offer": 6,
+    "interviewing": 5,
+    "interested": 4,
+    "recruiter_outreach": 3,
+    "applied": 2,
+    "ghosted": 1,
+    "rejected": 7  # highest — never overwritten
+}
 ```
-Gmail Inbox (after 2026/01/01)
-        │
-        ▼
-Stage 1 — Subject Filter (no API call)
-"50% off sale" → skip instantly
-        │
-        ▼ (uncertain or job-likely subjects only)
-Stage 2 — Gemini LLM Classification
-Extracts: company, role, status, location, date
-        │
-        ▼
-PostgreSQL (processed_emails + job_applications)
-        │
-        ▼
-Streamlit Dashboard + AI Chat
-"Which companies rejected me?" → Gemini answers
+
+### 4. ATS platform recognition
+Companies use Workday, Greenhouse, iCIMS, Lever to send emails. The agent ignores sender domains and extracts the real company name from email body and signature.
+
+### 5. Recursive MIME parsing
+Modern HTML emails use deeply nested multipart structures. Built a recursive walk_parts() function that extracts body content regardless of nesting depth.
+
+### 6. Rate limit handling
+Exponential backoff on API rate limits — waits 60s, 120s, 180s on consecutive failures. Emails that fail all retries are NOT saved to DB and are retried on the next run.
+
+### 7. Text-to-SQL chatbot
+Instead of context stuffing, uses the Text-to-SQL pattern:
 ```
-
----
-
-## Database Schema
-
-**processed_emails**
-| Column | Type | Description |
-|---|---|---|
-| id | serial | Primary key |
-| email_id | varchar | Gmail message ID (unique) |
-| subject | text | Email subject |
-| sender | varchar | Sender email address |
-| email_date | varchar | Date of email |
-| is_job_related | boolean | True if job related |
-| processed_at | timestamp | When processed |
-
-**job_applications**
-| Column | Type | Description |
-|---|---|---|
-| id | serial | Primary key |
-| email_id | varchar | Foreign key to processed_emails |
-| company | varchar | Company name |
-| role | varchar | Job title |
-| status | varchar | applied / interviewing / rejected / offer / etc |
-| location | varchar | City, State or Remote |
-| applied_date | varchar | Date from email |
-| notes | text | One sentence summary |
-| confidence | float | Gemini confidence score |
-| created_at | timestamp | When inserted |
+Question → Claude generates SQL → PostgreSQL executes → Claude formats answer
+```
+Same pattern used by Retool AI, Metabase AI, and AWS Q for internal tools.
 
 ---
 
@@ -117,8 +109,7 @@ Streamlit Dashboard + AI Chat
 - Python 3.11+
 - Docker Desktop
 - Google Cloud Project with Gmail API enabled
-- Google AI Studio API key (Gemini)
-- AWS account (for production deployment)
+- Anthropic API key (console.anthropic.com)
 
 ### 1. Clone the repository
 ```bash
@@ -143,140 +134,59 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Edit `.env` with your credentials:
+Edit .env:
 ```
-GEMINI_API_KEY=your-gemini-api-key
+ANTHROPIC_API_KEY=sk-ant-your-key-here
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=jobtracker
 DB_USER=postgres
 DB_PASSWORD=your-password
-AWS_ACCESS_KEY_ID=your-aws-key
-AWS_SECRET_ACCESS_KEY=your-aws-secret
-AWS_REGION=us-east-1
 ```
 
 ### 5. Set up Gmail OAuth
-- Go to [Google Cloud Console](https://console.cloud.google.com)
-- Create a project → Enable Gmail API
-- Create OAuth 2.0 credentials → Desktop app
-- Download `credentials.json` → place in project root
+- Go to console.cloud.google.com
+- Create project and enable Gmail API
+- OAuth consent screen → External → Add your Gmail as test user
+- Credentials → Create OAuth 2.0 Client ID → Desktop app
+- Download JSON → rename to credentials.json → place in project root
 
-### 6. Run locally
+### 6. Start PostgreSQL with Docker
+```bash
+docker run --name job-tracker-db \
+  -e POSTGRES_PASSWORD=your-password \
+  -e POSTGRES_DB=jobtracker \
+  -e POSTGRES_USER=postgres \
+  -p 5432:5432 \
+  -d postgres:15
+```
+
+### 7. Run the agent
 ```bash
 python main.py
 ```
 
-On first run, a browser window opens for Gmail authentication. After login, `token.json` is saved automatically — no login needed on subsequent runs.
+On first run, a browser window opens for Gmail authentication. After login, token.json is saved automatically for subsequent runs.
 
-### 7. Run with Docker Compose
+### 8. Run the API
 ```bash
-docker-compose up --build
+uvicorn api:app --reload --port 8000
 ```
 
-This starts:
-- `agent` container — runs scheduler every 2 hours
-- `db` container — PostgreSQL database
-- `dashboard` container — Streamlit at `http://localhost:8501`
-
----
-
-## Streamlit Dashboard
-
-```bash
-streamlit run dashboard.py
-```
-
-Open `http://localhost:8501` in your browser.
-
-Features:
-- Summary metrics — total, applied, interviewing, rejected, offers
-- Applications table with status color coding and filtering
-- Bar chart by application status
-- AI chat interface — ask questions in plain English
-
-Example questions:
-```
-"Which companies rejected me?"
-"Did I apply to Google?"
-"Which companies showed interest?"
-"How many applications do I have this month?"
-"Which roles am I interviewing for?"
-```
-
----
-
-## AWS Production Deployment
-
-### Architecture
-```
-EventBridge (every 2 hours)
-    → AWS Lambda (Python agent)
-        → AWS RDS PostgreSQL (data storage)
-        → AWS S3 (raw email backups)
-        → CloudWatch (logs + monitoring)
-Streamlit on EC2 (dashboard — always on)
-```
-
-### Steps
-1. Create RDS PostgreSQL instance (db.t3.micro — free tier)
-2. Migrate local DB to RDS: `pg_dump` → upload → `psql` restore
-3. Package Lambda function with dependencies
-4. Create EventBridge rule — schedule every 2 hours
-5. Create S3 bucket for email backups
-6. Set up CloudWatch log group for monitoring
-7. Launch EC2 t2.micro → deploy Streamlit dashboard
-
----
-
-## Email Classification Logic
-
-The agent uses a two-stage approach:
-
-**Stage 1 — Subject keyword filter (instant, no API call)**
-- Blocklist: sale, discount, job alert, job digest, newsletter, shipping, etc.
-- Allowlist: application, interview, offer, recruiter, rejected, etc.
-- Unknown subjects proceed to Stage 2
-
-**Stage 2 — Gemini LLM classification**
-- Sends subject + first 3000 chars of body to Gemini
-- Returns structured JSON with company, role, status, confidence
-- Handles rate limits with exponential backoff (30s, 60s, 90s retries)
-
-**Rejection detection phrases:**
-- "we are not moving forward"
-- "after careful consideration"
-- "we have decided to pursue other candidates"
-- "we regret to inform you"
-- "we will keep your resume on file"
-- and more...
-
----
-
-## Environment Variables
-
-| Variable | Description |
-|---|---|
-| `GEMINI_API_KEY` | Google AI Studio API key |
-| `DB_HOST` | PostgreSQL host |
-| `DB_PORT` | PostgreSQL port (default 5432) |
-| `DB_NAME` | Database name |
-| `DB_USER` | Database user |
-| `DB_PASSWORD` | Database password |
-| `AWS_ACCESS_KEY_ID` | AWS access key |
-| `AWS_SECRET_ACCESS_KEY` | AWS secret key |
-| `AWS_REGION` | AWS region (e.g. us-east-1) |
+Open http://localhost:8000/docs for interactive API documentation.
 
 ---
 
 ## Future Improvements
 
-- Add email reply automation — auto-send acknowledgment to recruiters
-- Integrate with LinkedIn API to cross-reference applications
-- Add weekly summary email report
-- Migrate to Databricks Delta Lake for large-scale analytics
-- Add Power BI dashboard for advanced visualizations
-- Support Outlook / IMAP in addition to Gmail
+- Deploy agent to AWS Lambda with EventBridge trigger every 2 hours
+- Migrate PostgreSQL to AWS RDS for managed cloud database
+- Add CI/CD pipeline with GitHub Actions
+- Build React chat UI consuming the FastAPI endpoints
+- Add LLM-as-judge evaluation framework for agent accuracy testing
+- Add email reply automation to auto-send acknowledgments to recruiters
+- Integrate LinkedIn API to cross-reference applications
+- Migrate to Databricks Delta Lake for analytics at scale
 
 ---
 
@@ -288,4 +198,4 @@ MIT License — free to use and modify.
 
 ## Author
 
-Built as a personal productivity tool to automate job search tracking using AI agents, cloud infrastructure, and modern data engineering practices.
+Built as a personal productivity tool to automate job search tracking using AI agents, modern data engineering practices, and REST API design.
