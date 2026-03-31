@@ -1,6 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, START_DATE
 
 STATUS_PRIORITY = {
     "offer": 6,
@@ -9,7 +9,7 @@ STATUS_PRIORITY = {
     "recruiter_outreach": 3,
     "applied": 2,
     "ghosted": 1,
-    "rejected": 0
+    "rejected": 7
 }
 
 def get_connection():
@@ -28,6 +28,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS processed_emails (
             id SERIAL PRIMARY KEY,
             email_id VARCHAR(255) UNIQUE NOT NULL,
+            thread_id VARCHAR(255),
             subject TEXT,
             sender VARCHAR(500),
             email_date VARCHAR(255),
@@ -39,6 +40,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS job_applications (
             id SERIAL PRIMARY KEY,
             email_id VARCHAR(255) REFERENCES processed_emails(email_id),
+            thread_id VARCHAR(255),
             company VARCHAR(255),
             role VARCHAR(255),
             status VARCHAR(100),
@@ -54,12 +56,12 @@ def create_tables():
     conn.close()
     print("Tables ready.")
 
-def is_email_processed(email_id):
+def is_thread_processed(thread_id):
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
-        "SELECT id FROM processed_emails WHERE email_id = %s",
-        (email_id,)
+        "SELECT id FROM processed_emails WHERE thread_id = %s",
+        (thread_id,)
     )
     result = cur.fetchone()
     cur.close()
@@ -71,11 +73,12 @@ def save_processed_email(email, is_job_related):
     cur = conn.cursor()
     cur.execute("""
         INSERT INTO processed_emails
-        (email_id, subject, sender, email_date, is_job_related)
-        VALUES (%s, %s, %s, %s, %s)
+        (email_id, thread_id, subject, sender, email_date, is_job_related)
+        VALUES (%s, %s, %s, %s, %s, %s)
         ON CONFLICT (email_id) DO NOTHING
     """, (
         email["id"],
+        email.get("thread_id"),
         email["subject"],
         email["sender"],
         email["date"],
@@ -98,7 +101,7 @@ def get_existing_application(company, role):
     conn.close()
     return result
 
-def save_job_application(email_id, job_data):
+def save_job_application(email_id, job_data, thread_id=None):
     company = job_data.get("company")
     role = job_data.get("role")
     new_status = job_data.get("status")
@@ -117,12 +120,14 @@ def save_job_application(email_id, job_data):
                 UPDATE job_applications
                 SET status = %s,
                     email_id = %s,
+                    thread_id = %s,
                     notes = %s,
                     confidence = %s
                 WHERE id = %s
             """, (
                 new_status,
                 email_id,
+                thread_id,
                 job_data.get("notes"),
                 job_data.get("confidence"),
                 existing["id"]
@@ -133,11 +138,12 @@ def save_job_application(email_id, job_data):
     else:
         cur.execute("""
             INSERT INTO job_applications
-            (email_id, company, role, status, location,
+            (email_id, thread_id, company, role, status, location,
              applied_date, notes, confidence)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, (
             email_id,
+            thread_id,
             company,
             role,
             new_status,
@@ -193,3 +199,23 @@ def get_stats():
     cur.close()
     conn.close()
     return result
+def get_last_processed_timestamp():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT MAX(processed_at) 
+        FROM processed_emails
+    """)
+    result = cur.fetchone()
+    cur.close()
+    conn.close()
+    
+    if result and result[0]:
+        # Format for Gmail API query — epoch timestamp
+        import time
+        from datetime import timezone
+        ts = int(result[0].replace(tzinfo=timezone.utc).timestamp())
+        return f"after:{ts}"
+    else:
+        # First ever run — use START_DATE
+        return f"after:{START_DATE}"
