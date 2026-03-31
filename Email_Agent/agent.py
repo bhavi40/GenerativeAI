@@ -20,12 +20,12 @@ FROM: {sender}
 BODY:
 {truncated_body}
 
-IMPORTANT: To find the company name, look for:
-- The name mentioned after "Regards", "Sincerely", "Thanks", "Best" in the signature
-- The name mentioned in phrases like "Thank you for applying to X", "your application at X", "career at X", "joining X"
-- The name mentioned in "X Recruiting Team", "X Talent Acquisition", "X HR Team"
-- The display name in the FROM field before the email address
-- IGNORE the email domain completely (@myworkday.com, @greenhouse.io, @talent.icims.com, @lever.co are NOT company names)
+IMPORTANT: To find the company name:
+- FIRST look at the subject line — the company you applied TO is usually here
+- If subject says "volunteer with X" or "application at X" or "joining X" → X is the company
+- The signature company is the RECRUITER or SENDER company — may be different from where you applied
+- Always pick the company the ROLE is FOR, not the recruiter's company
+- IGNORE the email domain completely (@myworkday.com, @greenhouse.io etc are NOT company names)
 
 ONLY mark as job-related if the email is a DIRECT interaction between you and a specific company:
 - Application confirmation from a specific company
