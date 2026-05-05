@@ -1,0 +1,76 @@
+
+MULTIMODAL RAG PIPELINE — RAGAS EVALUATION REPORT
+============================================================
+Date              : 2026-05-04 15:19
+Collection        : arxiv_rag
+Questions (total) : 21
+Questions (valid) : 21
+Embeddings        : CLIP (512-dim) + BGE (768-dim)
+Pipeline          : LangGraph (7 nodes)
+Query understand  : 3-level (intent → entity → decompose)
+Memory            : Two-tier (episodic summary + recent turns)
+Judge LLM         : Claude Haiku (2000 max_tokens)
+Eval quality      : 1 failed judge calls
+
+OVERALL SCORES
+────────────────────────────────────────────────────────────
+  Faithfulness       : 0.7536  (good)
+  Answer Relevancy   : 0.3055  (needs improvement)
+  Context Precision  : 0.3419  (needs improvement)
+  Context Recall     : 0.3965  (needs improvement)
+
+NaN COUNTS (lower = better)
+────────────────────────────────────────────────────────────
+  Faithfulness       : 0 failed
+  Answer Relevancy   : 0 failed
+  Context Precision  : 1 failed
+  Context Recall     : 0 failed
+
+INTENT DISTRIBUTION
+────────────────────────────────────────────────────────────
+  RETRIEVAL    : 21 queries
+
+PER-CATEGORY BREAKDOWN
+────────────────────────────────────────────────────────────
+  CV & Multimodal
+    Faithfulness      : 0.861
+    Answer Relevancy  : 0.328
+    Context Precision : 0.333
+    Context Recall    : 0.292
+    Questions         : 3
+  Diffusion & Generation
+    Faithfulness      : 0.766
+    Answer Relevancy  : 0.000
+    Context Precision : 0.000
+    Context Recall    : 0.037
+    Questions         : 3
+  Efficient & Fine-tuning
+    Faithfulness      : 0.667
+    Answer Relevancy  : 0.000
+    Context Precision : 0.667
+    Context Recall    : 0.200
+    Questions         : 3
+  LLMs & Scaling
+    Faithfulness      : 0.700
+    Answer Relevancy  : 0.330
+    Context Precision : 0.150
+    Context Recall    : 0.619
+    Questions         : 3
+  RAG & Retrieval
+    Faithfulness      : 0.741
+    Answer Relevancy  : 0.299
+    Context Precision : 0.167
+    Context Recall    : 0.567
+    Questions         : 3
+  RL & Alignment
+    Faithfulness      : 0.639
+    Answer Relevancy  : 0.289
+    Context Precision : 0.435
+    Context Recall    : 0.357
+    Questions         : 3
+  Transformers & Attention
+    Faithfulness      : 0.903
+    Answer Relevancy  : 0.893
+    Context Precision : 0.750
+    Context Recall    : 0.704
+    Questions         : 3

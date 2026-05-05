@@ -1,0 +1,242 @@
+arxiv_id,title,category,year
+1706.03762,Attention Is All You Need,Transformers & Attention,2017
+1810.04805,BERT: Pre-training of Deep Bidirectional Transformers,Transformers & Attention,2018
+1909.11942,ALBERT: A Lite BERT for Self-supervised Learning,Transformers & Attention,2019
+2003.10555,RoBERTa: A Robustly Optimized BERT Pretraining Approach,Transformers & Attention,2019
+1910.10683,Exploring the Limits of Transfer Learning with T5,Transformers & Attention,2019
+2005.00743,Longformer: The Long-Document Transformer,Transformers & Attention,2020
+2001.04451,Reformer: The Efficient Transformer,Transformers & Attention,2020
+2009.14794,Big Bird: Transformers for Longer Sequences,Transformers & Attention,2020
+2103.1403,Swin Transformer: Hierarchical Vision Transformer,Transformers & Attention,2021
+2010.11929,An Image is Worth 16x16 Words: ViT,Transformers & Attention,2020
+2107.14795,BEiT: BERT Pre-Training of Image Transformers,Transformers & Attention,2021
+2111.06377,Masked Autoencoders Are Scalable Vision Learners,Transformers & Attention,2021
+2203.15556,Training language models to follow instructions: InstructGPT,Transformers & Attention,2022
+1508.04025,Effective Approaches to Attention-based Neural Machine Translation,Transformers & Attention,2015
+1409.0473,Neural Machine Translation by Jointly Learning to Align,Transformers & Attention,2014
+2204.02311,PaLM: Scaling Language Modeling with Pathways,Transformers & Attention,2022
+2205.01068,OPT: Open Pre-trained Transformer Language Models,Transformers & Attention,2022
+2302.13971,LLaMA: Open and Efficient Foundation Language Models,LLMs & Scaling,2023
+2307.09288,Llama 2: Open Foundation and Fine-Tuned Chat Models,LLMs & Scaling,2023
+2005.14165,Language Models are Few-Shot Learners (GPT-3),LLMs & Scaling,2020
+2303.08774,GPT-4 Technical Report,LLMs & Scaling,2023
+2001.08361,Scaling Laws for Neural Language Models,LLMs & Scaling,2020
+2203.15556,Training language models to follow instructions,LLMs & Scaling,2022
+2209.01933,Scaling Instruction-Finetuned Language Models (Flan),LLMs & Scaling,2022
+2210.1161,Emergent Abilities of Large Language Models,LLMs & Scaling,2022
+2206.07682,Chinchilla: Training Compute-Optimal Large Language Models,LLMs & Scaling,2022
+2112.11446,WebGPT: Browser-assisted question-answering,LLMs & Scaling,2021
+2204.05862,Do As I Can: Grounding Language in Robotic Affordances,LLMs & Scaling,2022
+2301.13379,Constitutional AI: Harmlessness from AI Feedback,LLMs & Scaling,2023
+2307.01892,Phi-1: Textbooks Are All You Need,LLMs & Scaling,2023
+2309.05463,Phi-1.5: Textbooks Are All You Need II,LLMs & Scaling,2023
+2404.14219,Phi-3 Technical Report,LLMs & Scaling,2024
+2312.11805,Mixtral of Experts,LLMs & Scaling,2023
+2401.04088,Mixtral 8x7B Technical Report,LLMs & Scaling,2024
+2407.21783,Llama 3 Herd of Models,LLMs & Scaling,2024
+2108.07258,Finetuned Language Models Are Zero-Shot Learners (FLAN),LLMs & Scaling,2021
+2110.08207,Multitask Prompted Training Enables Zero-Shot Task Generalization,LLMs & Scaling,2021
+2112.00114,WebText: Language Models are Unsupervised Multitask Learners GPT-2,LLMs & Scaling,2019
+2302.04761,Toolformer: Language Models Can Teach Themselves to Use Tools,LLMs & Scaling,2023
+2306.05685,Judging LLM-as-a-Judge with MT-Bench,LLMs & Scaling,2023
+2310.06825,Mistral 7B,LLMs & Scaling,2023
+2311.10122,Orca 2: Teaching Small Language Models How to Reason,LLMs & Scaling,2023
+2304.15004,Are Emergent Abilities of Large Language Models a Mirage,LLMs & Scaling,2023
+2005.12729,Dense Passage Retrieval for Open-Domain Question Answering,RAG & Retrieval,2020
+2005.11401,Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,RAG & Retrieval,2020
+2112.09118,REALM: Retrieval-Augmented Language Model Pre-Training,RAG & Retrieval,2020
+2208.09257,Atlas: Few-shot Learning with Retrieval Augmented Language Models,RAG & Retrieval,2022
+2301.12652,REPLUG: Retrieval-Augmented Black-Box Language Models,RAG & Retrieval,2023
+2305.14283,FLARE: Active Retrieval Augmented Generation,RAG & Retrieval,2023
+2310.11511,Self-RAG: Learning to Retrieve Generate and Critique,RAG & Retrieval,2023
+2312.10997,RAG vs Fine-tuning: Pipelines Tradeoffs and a Case Study,RAG & Retrieval,2023
+2005.12009,ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction,RAG & Retrieval,2020
+2112.07899,ColBERTv2: Effective and Efficient Retrieval via Lightweight Late Interaction,RAG & Retrieval,2021
+1904.08375,Latent Retrieval for Weakly Supervised Open Domain Question Answering,RAG & Retrieval,2019
+2101.0019,Prefix-Tuning: Optimizing Continuous Prompts for Generation,RAG & Retrieval,2021
+2212.1056,Precise Zero-Shot Dense Retrieval without Relevance Labels (HyDE),RAG & Retrieval,2022
+2309.01431,RAGAS: Automated Evaluation of Retrieval Augmented Generation,RAG & Retrieval,2023
+2310.01558,LangChain: Building applications with LLMs through composability,RAG & Retrieval,2023
+2401.18059,Corrective RAG (CRAG),RAG & Retrieval,2024
+2402.14848,GraphRAG: From Local to Global,RAG & Retrieval,2024
+2404.1613,HippoRAG: Neurobiologically Inspired Long-Term Memory for LLMs,RAG & Retrieval,2024
+2106.09685,LoRA: Low-Rank Adaptation of Large Language Models,Efficient & Fine-tuning,2021
+2305.14314,QLoRA: Efficient Finetuning of Quantized LLMs,Efficient & Fine-tuning,2023
+2212.09597,LIMA: Less Is More for Alignment,Efficient & Fine-tuning,2023
+2205.05638,The Power of Scale for Parameter-Efficient Prompt Tuning,Efficient & Fine-tuning,2021
+2110.07602,The Power of Scale for Parameter-Efficient Prompt Tuning,Efficient & Fine-tuning,2021
+2101.0019,Prefix-Tuning: Optimizing Continuous Prompts for Generation,Efficient & Fine-tuning,2021
+2304.01196,Sparks of Artificial General Intelligence: Early experiments with GPT-4,Efficient & Fine-tuning,2023
+2112.10741,Flash Attention: Fast and Memory-Efficient Exact Attention,Efficient & Fine-tuning,2022
+2307.08691,FlashAttention-2: Faster Attention with Better Parallelism,Efficient & Fine-tuning,2023
+2306.00978,Efficient Streaming Language Models with Attention Sinks,Efficient & Fine-tuning,2023
+2210.17323,Scaling Down to Scale Up: A Guide to Parameter-Efficient Fine-Tuning,Efficient & Fine-tuning,2022
+2309.16609,LongLoRA: Efficient Fine-tuning of Long-Context LLMs,Efficient & Fine-tuning,2023
+2402.00838,MoE-LLaVA: Mixture of Experts for Large Vision-Language Models,Efficient & Fine-tuning,2024
+2301.00774,SparseGPT: Massive Language Models Can be Accurately Pruned in One Shot,Efficient & Fine-tuning,2023
+2208.07339,LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale,Efficient & Fine-tuning,2022
+2004.0515,GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers,Efficient & Fine-tuning,2022
+2306.09782,AWQ: Activation-aware Weight Quantization for LLM Compression,Efficient & Fine-tuning,2023
+2305.10403,Direct Preference Optimization: Your Language Model is Secretly a Reward Model,RL & Alignment,2023
+2009.01325,Learning to Summarize with Human Feedback (RLHF),RL & Alignment,2020
+2203.02155,InstructGPT: Training language models to follow instructions,RL & Alignment,2022
+1707.06347,Proximal Policy Optimization Algorithms (PPO),RL & Alignment,2017
+2212.08073,Discovering Language Model Behaviors with Model-Written Evaluations,RL & Alignment,2022
+2307.04964,Llama 2: Open Foundation and Fine-Tuned Chat Models,RL & Alignment,2023
+2310.12931,OpenChat: Advancing Open-source Language Models with Imperfect Data,RL & Alignment,2023
+2401.01335,Self-Play Fine-Tuning (SPIN),RL & Alignment,2024
+2112.09332,WebGPT: Browser-Assisted Question Answering,RL & Alignment,2021
+2204.02311,Training a Helpful and Harmless Assistant with RLHF,RL & Alignment,2022
+2309.00267,RLAIF: Scaling Reinforcement Learning from Human Feedback with AI Feedback,RL & Alignment,2023
+2403.19522,RewardBench: Evaluating Reward Models for Language Modeling,RL & Alignment,2024
+2305.1829,LIMA: Less Is More for Alignment,RL & Alignment,2023
+2310.03693,Fine-Tuning Language Models from Human Preferences,RL & Alignment,2019
+2404.03715,Many-Shot In-Context Learning,RL & Alignment,2024
+2103.0002,Learning Transferable Visual Models from Natural Language (CLIP),CV & Multimodal,2021
+2301.13823,BLIP-2: Bootstrapping Language-Image Pre-training,CV & Multimodal,2023
+2304.08485,LLaVA: Visual Instruction Tuning,CV & Multimodal,2023
+2310.03744,LLaVA-1.5: Improved Baselines with Visual Instruction Tuning,CV & Multimodal,2023
+2305.11175,InstructBLIP: Towards General-purpose Vision-Language Models,CV & Multimodal,2023
+1512.03385,Deep Residual Learning for Image Recognition (ResNet),CV & Multimodal,2015
+2304.02643,Segment Anything (SAM),CV & Multimodal,2023
+2401.13601,MoE-LLaVA: Mixture of Experts for Large Vision-Language Models,CV & Multimodal,2024
+2303.04671,Visual ChatGPT: Talking Drawing and Editing with Visual Foundation Models,CV & Multimodal,2023
+2309.1002,NExT-GPT: Any-to-Any Multimodal LLM,CV & Multimodal,2023
+2306.16527,Otter: A Multi-Modal Model with In-Context Instruction Tuning,CV & Multimodal,2023
+2308.12966,Qwen-VL: A Versatile Vision-Language Model,CV & Multimodal,2023
+2312.14238,InternVL: Scaling up Vision Foundation Models,CV & Multimodal,2023
+2401.30226,MiniCPM-V: A GPT-4V Level Multimodal LLM on Your Phone,CV & Multimodal,2024
+1409.1556,Very Deep Convolutional Networks for Large-Scale Image Recognition (VGG),CV & Multimodal,2014
+1512.00567,Rethinking the Inception Architecture for Computer Vision,CV & Multimodal,2015
+2010.11929,An Image is Worth 16x16 Words: Transformers for Image Recognition (ViT),CV & Multimodal,2020
+2111.06377,Masked Autoencoders Are Scalable Vision Learners (MAE),CV & Multimodal,2021
+2303.15343,GPT-4 Technical Report (Multimodal),CV & Multimodal,2023
+2406.1686,InternLM-XComposer2.5: A Versatile Large Vision Language Model,CV & Multimodal,2024
+2010.02502,Denoising Diffusion Probabilistic Models (DDPM),Diffusion & Generation,2020
+2112.10752,High-Resolution Image Synthesis with Latent Diffusion Models (Stable Diffusion),Diffusion & Generation,2022
+2204.06125,Hierarchical Text-Conditional Image Generation with CLIP Latents (DALL-E 2),Diffusion & Generation,2022
+2305.11175,DALL-E 3: Improving Image Generation with Better Captions,Diffusion & Generation,2023
+2207.12598,Classifier-Free Diffusion Guidance,Diffusion & Generation,2022
+2403.03206,Stable Diffusion 3: Scaling Rectified Flow Transformers,Diffusion & Generation,2024
+2302.05543,Consistency Models,Diffusion & Generation,2023
+2303.09556,SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis,Diffusion & Generation,2023
+2112.10741,Score-Based Generative Modeling (Score Diffusion),Diffusion & Generation,2020
+2307.01952,SDXL-Turbo: Adversarial Diffusion Distillation,Diffusion & Generation,2023
+2209.00796,DreamBooth: Fine Tuning Text-to-Image Diffusion Models,Diffusion & Generation,2022
+2208.01618,An Image is Worth One Word: Personalizing Text-to-Image with Textual Inversion,Diffusion & Generation,2022
+2302.08453,ControlNet: Adding Conditional Control to Text-to-Image Diffusion Models,Diffusion & Generation,2023
+2212.09748,InstructPix2Pix: Learning to Follow Image Editing Instructions,Diffusion & Generation,2022
+2209.1443,Imagic: Text-Based Real Image Editing with Diffusion Models,Diffusion & Generation,2022
+2305.16103,Drag Your GAN: Interactive Point-based Manipulation on Generative Image,Diffusion & Generation,2023
+2401.12945,SDXL-Lightning: Progressive Adversarial Diffusion Distillation,Diffusion & Generation,2024
+2403.12015,Stable Video Diffusion: Scaling Latent Video Diffusion Models to Large Datasets,Diffusion & Generation,2023
+2311.17004,AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models,Diffusion & Generation,2023
+2309.1708,CogVLM: Visual Expert for Pretrained Language Models,Diffusion & Generation,2023
+2212.04048,Point-E: A System for Generating 3D Point Clouds from Complex Prompts,Diffusion & Generation,2022
+2103.17249,Zero-Shot Text-to-Image Generation (DALL-E),Diffusion & Generation,2021
+2301.07093,BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language,Diffusion & Generation,2022
+2209.15298,Make-A-Video: Text-to-Video Generation without Text-Video Data,Diffusion & Generation,2022
+2210.02303,Imagen Video: High Definition Video Generation with Diffusion Models,Diffusion & Generation,2022
+2209.05433,Phenaki: Variable Length Video Generation from Open Domain Textual Descriptions,Diffusion & Generation,2022
+2305.13301,VideoPoet: A Large Language Model for Zero-Shot Video Generation,Diffusion & Generation,2023
+2312.14125,Gemini: A Family of Highly Capable Multimodal Models,LLMs & Scaling,2023
+2403.0553,Gemini 1.5: Unlocking multimodal understanding across millions of tokens,LLMs & Scaling,2024
+2312.00752,Mamba: Linear-Time Sequence Modeling with Selective State Spaces,Transformers & Attention,2023
+2401.04088,MoE Scaling: Switch Transformers,Transformers & Attention,2022
+2205.09911,FlashAttention: Fast Memory-Efficient Exact Attention with IO-Awareness,Efficient & Fine-tuning,2022
+2212.01349,Efficient Large Scale Language Modeling with Mixtures of Experts,Transformers & Attention,2021
+2302.13971,LLaMA: Open and Efficient Foundation Language Models (original),LLMs & Scaling,2023
+2307.15043,ToolLLM: Facilitating Large Language Models to Master APIs,RAG & Retrieval,2023
+2303.1758,HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in HuggingFace,RAG & Retrieval,2023
+2210.03629,ReAct: Synergizing Reasoning and Acting in Language Models,RL & Alignment,2022
+2201.11903,Chain-of-Thought Prompting Elicits Reasoning in Large Language Models,RL & Alignment,2022
+2203.11171,Self-Consistency Improves Chain of Thought Reasoning,RL & Alignment,2022
+2205.01068,Least-to-Most Prompting Enables Complex Reasoning in Large Language Models,RL & Alignment,2022
+2205.10625,Large Language Models are Zero-Shot Reasoners (Let's think step by step),RL & Alignment,2022
+2301.10226,Rethinking with Retrieval: Faithful Large Language Model Inference,RAG & Retrieval,2023
+2305.2005,Tree of Thoughts: Deliberate Problem Solving with Large Language Models,RL & Alignment,2023
+2308.09687,Graph of Thoughts: Solving Elaborate Problems with Large Language Models,RL & Alignment,2023
+2212.10156,Self-Refine: Iterative Refinement with Self-Feedback,RL & Alignment,2023
+2303.11366,Reflexion: Language Agents with Verbal Reinforcement Learning,RL & Alignment,2023
+2308.00352,MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework,RL & Alignment,2023
+2304.03442,Generative Agents: Interactive Simulacra of Human Behavior,RL & Alignment,2023
+2309.07864,AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation,RL & Alignment,2023
+2210.03629,ReAct: Synergizing Reasoning and Acting in Language Models,RL & Alignment,2022
+2112.00114,Decision Transformer: Reinforcement Learning via Sequence Modeling,RL & Alignment,2021
+1707.06347,Proximal Policy Optimization Algorithms,RL & Alignment,2017
+1602.01783,Asynchronous Methods for Deep Reinforcement Learning (A3C),RL & Alignment,2016
+2307.09009,Communicative Agents for Software Development (ChatDev),RL & Alignment,2023
+2305.16291,Voyager: An Open-Ended Embodied Agent with LLMs,RL & Alignment,2023
+2401.05268,Self-Discover: Large Language Models Self-Compose Reasoning Structures,RL & Alignment,2024
+2406.12442,Mixture of Agents Enhances Large Language Model Capabilities,RL & Alignment,2024
+2311.11829,MagicData: LLM Agents for Automated Machine Learning,RL & Alignment,2023
+2309.02427,ModelScope-Agent: Building Your Customizable Agent System,RL & Alignment,2023
+2302.07842,Augmented Language Models: a Survey,RAG & Retrieval,2023
+2310.14724,LCEL: LangChain Expression Language,RAG & Retrieval,2023
+2309.10184,LlamaIndex: A Data Framework for LLM Applications,RAG & Retrieval,2023
+2005.11401,RAG: Retrieval-Augmented Generation for Knowledge-Intensive Tasks,RAG & Retrieval,2020
+2401.15884,RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval,RAG & Retrieval,2024
+2402.07016,BRIGHT: A Realistic and Challenging Benchmark for Reasoning-Intensive Retrieval,RAG & Retrieval,2024
+2406.13121,MedRAG: Medical Retrieval Augmented Generation,RAG & Retrieval,2024
+2309.01431,Evaluating RAG with RAGAS Framework,RAG & Retrieval,2023
+2404.10981,ColPali: Efficient Document Retrieval with Vision Language Models,RAG & Retrieval,2024
+2407.01219,MiniRAG: Towards Extremely Simple Retrieval-Augmented Generation,RAG & Retrieval,2024
+1503.02531,Distilling the Knowledge in a Neural Network,Efficient & Fine-tuning,2015
+1910.01108,DistilBERT: a distilled version of BERT,Efficient & Fine-tuning,2019
+2210.06726,GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers,Efficient & Fine-tuning,2022
+2211.17192,FLAP: Compressing Large Language Models using Activation-based Pruning,Efficient & Fine-tuning,2022
+2203.12644,Training Vision Transformers with Only 2040 Images,Efficient & Fine-tuning,2022
+2110.02861,Compressing Large-Scale Transformer-Based Models: A Case Study on BERT,Efficient & Fine-tuning,2021
+2207.09519,Who Says Elephants Can't Run: Bringing Large Scale MoE Models into Cloud Scale,Efficient & Fine-tuning,2022
+2402.17764,MobileLLM: Optimizing Sub-billion Parameter Language Models,Efficient & Fine-tuning,2024
+2404.14219,Phi-3: Small Language Models,Efficient & Fine-tuning,2024
+2301.12726,Scaling Laws for Fine-Grained Mixture of Experts,Efficient & Fine-tuning,2023
+2402.01032,SELF-PLAY FINE-TUNING CONVERTS WEAK TO STRONG,Efficient & Fine-tuning,2024
+1406.2661,Generative Adversarial Nets (GAN),Diffusion & Generation,2014
+1312.6114,Auto-Encoding Variational Bayes (VAE),Diffusion & Generation,2013
+2006.11239,Denoising Diffusion Probabilistic Models,Diffusion & Generation,2020
+2105.05233,Diffusion Models Beat GANs on Image Synthesis,Diffusion & Generation,2021
+2106.00132,DALL-E: Zero-Shot Text-to-Image Generation,Diffusion & Generation,2021
+2011.13456,Score-Based Generative Modeling through Stochastic Differential Equations,Diffusion & Generation,2020
+2207.12598,Classifier-Free Diffusion Guidance,Diffusion & Generation,2022
+2312.03052,Mamba: Linear-Time Sequence Modeling with Selective State Spaces,Transformers & Attention,2023
+2305.07185,RWKV: Reinventing RNNs for the Transformer Era,Transformers & Attention,2023
+2111.00396,Perceiver IO: A General Architecture for Structured Inputs and Outputs,Transformers & Attention,2021
+2102.09672,Improving Language Understanding by Generative Pre-Training (GPT),Transformers & Attention,2018
+1810.04805,BERT: Pre-training of Deep Bidirectional Transformers for NLP,Transformers & Attention,2018
+2204.07118,PaLM: Scaling Language Modeling with Pathways,LLMs & Scaling,2022
+2207.07214,Opt: Open Pre-trained Transformer Language Models,LLMs & Scaling,2022
+2204.02311,PaLM-E: An Embodied Multimodal Language Model,CV & Multimodal,2022
+2211.12561,BLOOM: A 176B-Parameter Open-Access Multilingual Language Model,LLMs & Scaling,2022
+2212.09251,Self-Instruct: Aligning Language Models with Self-Generated Instructions,RL & Alignment,2022
+2212.1056,Precise Zero-Shot Dense Retrieval without Relevance Labels,RAG & Retrieval,2022
+2307.09009,ChatDev: Communicative Agents for Software Development,RL & Alignment,2023
+2308.11432,AgentBench: Evaluating LLMs as Agents,RL & Alignment,2023
+2310.04406,OpenAgents: An Open Platform for Language Agents in the Wild,RL & Alignment,2023
+2401.05268,Self-Discover: LLMs Self-Compose Reasoning Structures,RL & Alignment,2024
+2404.04292,Many-Shot In-Context Learning in Multimodal Foundation Models,CV & Multimodal,2024
+2404.09562,RULER: What's the Real Context Size of Your Long Context Language Models,LLMs & Scaling,2024
+2404.1613,HippoRAG: Neurobiologically Inspired Long-Term Memory,RAG & Retrieval,2024
+2405.14831,Not All Tokens Are What You Need (Token Selection),Efficient & Fine-tuning,2024
+2406.04692,Skywork-MoE: A Deep Dive into Training Mixture-of-Experts,Efficient & Fine-tuning,2024
+2312.11805,Mixtral of Experts: Sparse MoE Language Model,LLMs & Scaling,2023
+2402.14848,From Local to Global: A Graph RAG Approach,RAG & Retrieval,2024
+2309.10668,Textbooks Are All You Need (Code Phi),LLMs & Scaling,2023
+2310.06825,Mistral 7B Technical Report,LLMs & Scaling,2023
+2403.08295,Stable Diffusion 3: Flow Matching,Diffusion & Generation,2024
+2404.01094,MM1: Methods Analysis and Insights from Multimodal LLM Pre-training,CV & Multimodal,2024
+2401.02385,MoE-Mamba: Efficient Selective State Space Models with Mixture of Experts,Transformers & Attention,2024
+2402.19427,Griffin: Mixing Gated Linear Recurrences with Local Attention,Transformers & Attention,2024
+2405.04434,DeepSeek-V2: A Strong Economical and Efficient MOE Language Model,LLMs & Scaling,2024
+2402.033,DeepSeekMoE: Towards Ultimate Expert Specialization in MOE Language Models,LLMs & Scaling,2024
+2401.02954,DeepSeek LLM: Scaling Open-Source Language Models with Longtermism,LLMs & Scaling,2024
+2405.14333,Chameleon: Mixed-Modal Early-Fusion Foundation Models,CV & Multimodal,2024
+2406.07522,Cambrian-1: A Fully Open Visual Centric Exploration of Multimodal LLMs,CV & Multimodal,2024
+2312.0212,Mamba-ND: State Space Modeling for Multi-Dimensional Data,Transformers & Attention,2023
+2406.1686,InternLM-XComposer2.5,CV & Multimodal,2024
+2404.01553,Octopus v2: On-device Language Model for Super Agent,RL & Alignment,2024
+2404.07143,Leave No Context Behind: Efficient Infinite Context Transformers,Transformers & Attention,2024
+2404.05961,ReFT: Representation Fine-Tuning for Language Models,Efficient & Fine-tuning,2024
+2402.00159,RepLoRA: Reparameterized Low-Rank Adaptation,Efficient & Fine-tuning,2024
+2404.09562,LongRoPE: Extending LLM Context Window Beyond 2 Million Tokens,LLMs & Scaling,2024
+2402.13616,GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection,Efficient & Fine-tuning,2024

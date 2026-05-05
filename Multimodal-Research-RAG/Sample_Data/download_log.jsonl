@@ -1,0 +1,21 @@
+{"arxiv_id": "2404.04292", "title": "Many-Shot In-Context Learning in Multimodal Foundation Models", "category": "CV & Multimodal", "year": "2024", "status": "success"}
+{"arxiv_id": "2310.03744", "title": "LLaVA-1.5: Improved Baselines with Visual Instruction Tuning", "category": "CV & Multimodal", "year": "2023", "status": "success"}
+{"arxiv_id": "2103.0002", "title": "Learning Transferable Visual Models from Natural Language (CLIP)", "category": "CV & Multimodal", "year": "2021", "status": "success"}
+{"arxiv_id": "2403.12015", "title": "Stable Video Diffusion: Scaling Latent Video Diffusion Models to Large Datasets", "category": "Diffusion & Generation", "year": "2023", "status": "success"}
+{"arxiv_id": "2305.16103", "title": "Drag Your GAN: Interactive Point-based Manipulation on Generative Image", "category": "Diffusion & Generation", "year": "2023", "status": "success"}
+{"arxiv_id": "2209.1443", "title": "Imagic: Text-Based Real Image Editing with Diffusion Models", "category": "Diffusion & Generation", "year": "2022", "status": "success"}
+{"arxiv_id": "2307.08691", "title": "FlashAttention-2: Faster Attention with Better Parallelism", "category": "Efficient & Fine-tuning", "year": "2023", "status": "success"}
+{"arxiv_id": "2304.01196", "title": "Sparks of Artificial General Intelligence: Early experiments with GPT-4", "category": "Efficient & Fine-tuning", "year": "2023", "status": "success"}
+{"arxiv_id": "2101.0019", "title": "Prefix-Tuning: Optimizing Continuous Prompts for Generation", "category": "Efficient & Fine-tuning", "year": "2021", "status": "success"}
+{"arxiv_id": "2401.02954", "title": "DeepSeek LLM: Scaling Open-Source Language Models with Longtermism", "category": "LLMs & Scaling", "year": "2024", "status": "success"}
+{"arxiv_id": "2403.0553", "title": "Gemini 1.5: Unlocking multimodal understanding across millions of tokens", "category": "LLMs & Scaling", "year": "2024", "status": "success"}
+{"arxiv_id": "2005.14165", "title": "Language Models are Few-Shot Learners (GPT-3)", "category": "LLMs & Scaling", "year": "2020", "status": "success"}
+{"arxiv_id": "2005.11401", "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks", "category": "RAG & Retrieval", "year": "2020", "status": "success"}
+{"arxiv_id": "2305.14283", "title": "FLARE: Active Retrieval Augmented Generation", "category": "RAG & Retrieval", "year": "2023", "status": "success"}
+{"arxiv_id": "2309.01431", "title": "RAGAS: Automated Evaluation of Retrieval Augmented Generation", "category": "RAG & Retrieval", "year": "2023", "status": "success"}
+{"arxiv_id": "2404.03715", "title": "Many-Shot In-Context Learning", "category": "RL & Alignment", "year": "2024", "status": "success"}
+{"arxiv_id": "2305.16291", "title": "Voyager: An Open-Ended Embodied Agent with LLMs", "category": "RL & Alignment", "year": "2023", "status": "success"}
+{"arxiv_id": "2307.09009", "title": "ChatDev: Communicative Agents for Software Development", "category": "RL & Alignment", "year": "2023", "status": "success"}
+{"arxiv_id": "1706.03762", "title": "Attention Is All You Need", "category": "Transformers & Attention", "year": "2017", "status": "success"}
+{"arxiv_id": "2312.00752", "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces", "category": "Transformers & Attention", "year": "2023", "status": "success"}
+{"arxiv_id": "2001.04451", "title": "Reformer: The Efficient Transformer", "category": "Transformers & Attention", "year": "2020", "status": "success"}
