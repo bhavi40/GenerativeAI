@@ -99,119 +99,6 @@ Grounded Answer + Citations + Figures
 
 > **Planned:** Scale to 239 verified PDFs once all downloads and extractions are validated.
 
-**Categories:**
-- 🤖 Transformers & Attention
-- 📈 LLMs & Scaling
-- 🔍 RAG & Retrieval
-- ⚡ Efficient & Fine-tuning
-- 🎯 RL & Alignment
-- 🖼️ CV & Multimodal
-- 🎨 Diffusion & Generation
-
----
-
-## 🧠 Tech Stack
-
-| Component | Technology |
-|-----------|-----------|
-| PDF Extraction | Marker (LaTeX preservation) |
-| Text Embeddings | BGE-base-en-v1.5 (768-dim) |
-| Image Embeddings | CLIP ViT-B/32 (512-dim) |
-| Vector Database | Qdrant (local) |
-| Reranker | ms-marco-MiniLM-L-6-v2 |
-| LLM | Claude Haiku (Anthropic) |
-| Pipeline | LangGraph |
-| Evaluation | RAGAS |
-| UI | Streamlit |
-
----
-
-## 🔄 Pipeline Details
-
-### Query Understanding (3 Levels)
-
-**Level 1 — Intent Classification**
-
-LLM-based classifier routes each query before any retrieval:
-
-| Intent | Action |
-|--------|--------|
-| `RETRIEVAL` | Entity resolution → decomposition → HyDE → Qdrant search |
-| `MEMORY` | Skip Qdrant entirely → answer from conversation history |
-| `HYBRID` | Entity resolution → HyDE → Qdrant search + history context |
-| `CHITCHAT` | Skip Qdrant entirely → polite decline |
-
-**Level 2 — Entity Resolution** *(RETRIEVAL + HYBRID only)*
-
-Resolves pronouns and references using conversation history:
-```
-"how does it work?" + [context: transformer]
-→ "how does the transformer architecture work?"
-```
-
-**Level 2 — Sub-query Decomposition** *(RETRIEVAL + HYBRID only)*
-
-Breaks complex comparison queries into targeted searches:
-```
-"compare attention in transformers vs mamba"
-→ ["attention mechanism transformers",
-   "attention mechanism mamba",
-   "comparison transformer mamba architectures"]
-```
-
-**HyDE — Hypothetical Document Embedding** *(RETRIEVAL + HYBRID only)*
-
-Generates a hypothetical answer passage and embeds that instead of the raw query. Vector search works better comparing answer-to-answer than question-to-answer.
-
-**HyDE is NOT applied to MEMORY or CHITCHAT** — these intents skip retrieval entirely.
-
----
-
-### Query Router — Modality Classification
-
-After intent routing, the `query_router` node uses an LLM to understand the question and decide whether it needs text or visual content:
-
-| Modality | When | Retriever |
-|----------|------|-----------|
-| `TEXT` | Explanation, definition, comparison | `text_retriever` only |
-| `VISUAL` | Explicitly wants figures, diagrams, architecture visuals | `text_retriever` + `image_retriever` |
-
-```
-"how does attention work?"                    → TEXT   → text_retriever only
-"show me the transformer architecture"        → VISUAL → both retrievers
-"explain CLIP training"                       → TEXT   → text_retriever only
-"what does the Mamba architecture look like?" → VISUAL → both retrievers
-```
-
-No keyword matching — the LLM understands intent naturally.
-
----
-
-### Memory System
-
-```
-Turn 1-10  : recent_turns stored verbatim
-Turn 10    : should_summarize() → True
-             old turns compressed into episodic_summary
-             recent turns kept verbatim
-Turn 11-20 : continues accumulating
-Turn 20    : summarize() folds into existing summary
-```
-
-Benefits:
-- Never hits context window limit
-- Preserves recent turns for exact recall
-- Compresses older turns to save tokens
-- Structured state tracks topics + papers referenced across turns
-
----
-
-### Retrieval Strategy
-
-- Text queries → BGE `text_vector` search only
-- Visual queries → CLIP `image_vector` + BGE `text_vector`
-- Cross-encoder reranker scores top-20 → returns top-5
-- Figures served as supplementary — never compete with text chunks for top-5 slots
 
 ---
 
@@ -307,7 +194,11 @@ pathology_rag_pipeline/
 │   ├── retriever.py          ← Qdrant client + search
 │   └── run.py                ← entry point + interactive loop
 ├── Notebooks/
-│   └── Extraction/           ← Marker extraction notebooks (Kaggle)
+│   └── Extraction/           ← Marker extraction notebooks
+    |── download_papers.py    ← code to download source paper
+    ├── embedding.ipynb       ← embedding code
+    ├── evaluate.py           ← RAGAS Evaluation Code
+    ├── evaluate.py           ← To extract sample data from source_Data
 ├── embedding_source_data/    ← embedding pipeline scripts
 ├── eval_output/              ← RAGAS evaluation results
 ├── marker_output/            ← Marker extraction output
@@ -317,7 +208,6 @@ pathology_rag_pipeline/
 ├── Documentation/            ← project notes
 ├── app.py                    ← Streamlit chat UI
 ├── evaluate.py               ← RAGAS evaluation script
-├── add_papers.py             ← add new papers to collection
 ├── requirements.txt
 ├── .env.example
 └── README.md
@@ -325,19 +215,7 @@ pathology_rag_pipeline/
 
 ---
 
-## 🗺️ Roadmap
-
-- [ ] Verify and fix all 239 PDF downloads (check truncated arxiv IDs)
-- [ ] Re-extract full dataset with Marker on Kaggle GPU
-- [ ] Re-embed full 239 papers into Qdrant
-- [ ] Re-run RAGAS evaluation with updated pipeline fixes
-- [ ] Deploy Streamlit UI to Hugging Face Spaces
-- [ ] Add FastAPI REST endpoint
-- [ ] Add Qdrant Cloud support
-
----
-
-## 💡 Production Considerations
+## 💡 Future Production Considerations
 
 | Current | Production Equivalent |
 |---------|----------------------|
