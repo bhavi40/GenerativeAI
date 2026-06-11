@@ -198,13 +198,12 @@ pathology_rag_pipeline/
     |── download_papers.py    ← code to download source paper
     ├── embedding.ipynb       ← embedding code
     ├── evaluate.py           ← RAGAS Evaluation Code
-├── embedding_source_data/    ← embedding pipeline scripts
+├── extracted_data/           ← extracted data
 ├── eval_output/              ← RAGAS evaluation results
 ├── marker_output/            ← Marker extraction output
 ├── qdrant_backup/            ← local Qdrant storage
 ├── Sample_Data/              ← sample PDFs + download log
 ├── Source_Data/              ← full dataset PDFs
-├── Documentation/            ← project notes
 ├── app.py                    ← Streamlit chat UI
 ├── evaluate.py               ← RAGAS evaluation script
 ├── requirements.txt
