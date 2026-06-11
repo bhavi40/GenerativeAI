@@ -198,7 +198,6 @@ pathology_rag_pipeline/
     |── download_papers.py    ← code to download source paper
     ├── embedding.ipynb       ← embedding code
     ├── evaluate.py           ← RAGAS Evaluation Code
-    ├── evaluate.py           ← To extract sample data from source_Data
 ├── embedding_source_data/    ← embedding pipeline scripts
 ├── eval_output/              ← RAGAS evaluation results
 ├── marker_output/            ← Marker extraction output
