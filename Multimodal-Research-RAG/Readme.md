@@ -200,7 +200,6 @@ pathology_rag_pipeline/
     ├── evaluate.py           ← RAGAS Evaluation Code
 ├── extracted_data/           ← extracted data
 ├── eval_output/              ← RAGAS evaluation results
-├── marker_output/            ← Marker extraction output
 ├── qdrant_backup/            ← local Qdrant storage
 ├── Sample_Data/              ← sample PDFs + download log
 ├── Source_Data/              ← full dataset PDFs
